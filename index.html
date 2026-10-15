@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learnvora Academy — JEE, NEET & Foundation Coaching in Bengaluru | Class 8–12</title>
+<meta name="description" content="Learnvora Academy, Bengaluru. Small batches of 15 for JEE, NEET, Foundation (Class 8-10) and Board Prep. Weekly tests, doubt session after every class, monthly parent updates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== Design tokens ===== */
+:root{
+  --navy:#0F2A4A;
+  --off-white:#F7F5F0;
+  --white:#FFFFFF;
+  --amber:#D98A1F;
+  --amber-hover:#B57315;
+  --grey:#5B6573;
+  --border:#E4E1DA;
+  --font-heading:'Fraunces',Georgia,serif;
+  --font-body:'Inter',system-ui,-apple-system,sans-serif;
+  --s8:8px; --s16:16px; --s24:24px; --s32:32px; --s64:64px; --s96:96px;
+  --radius:6px;
+  --radius-sm:4px;
+  --nav-h:68px;
+  --h1:clamp(2rem,5.2vw,2.75rem);
+  --h2:clamp(1.55rem,3.4vw,2rem);
+  --h3:1.125rem;
+  --container:1140px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--font-body); font-size:16px; line-height:1.6;
+  color:var(--grey); background:var(--white);
+  -webkit-text-size-adjust:100%; overflow-x:hidden;
+}
+h1,h2,h3{font-family:var(--font-heading); color:var(--navy); line-height:1.2; margin:0 0 var(--s16) 0; font-weight:600; text-wrap:balance}
+h1{font-size:var(--h1); letter-spacing:-0.01em}
+h2{font-size:var(--h2)}
+h3{font-size:var(--h3); font-family:var(--font-heading)}
+p{margin:0 0 var(--s16) 0; font-size:16px}
+a{color:var(--navy)}
+img{max-width:100%; display:block}
+section{scroll-margin-top:calc(var(--nav-h) + 16px)}
+.container{max-width:var(--container); margin:0 auto; padding-left:var(--s16); padding-right:var(--s16)}
+.section{padding-top:56px; padding-bottom:56px}
+@media(min-width:900px){ .section{padding-top:96px; padding-bottom:96px} body{font-size:17px} p{font-size:17px} }
+.bg-off{background:var(--off-white)}
+.bg-white{background:var(--white)}
+
+/* focus */
+:focus-visible{outline:3px solid var(--amber); outline-offset:2px; border-radius:2px}
+.skip{position:absolute; left:-9999px; top:0; background:var(--navy); color:#fff; padding:8px 16px; z-index:200}
+.skip:focus{left:8px; top:8px}
+
+/* kicker - tiny amber highlight only */
+.kicker{display:flex; align-items:center; gap:12px; font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); margin-bottom:16px}
+.kicker::before{content:""; width:28px; height:3px; background:var(--amber); display:inline-block; border-radius:2px}
+.lead{font-size:17px; max-width:60ch}
+@media(min-width:900px){.lead{font-size:18px}}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 24px; border-radius:var(--radius-sm); font-weight:600; font-size:16px; text-decoration:none; border:1px solid transparent; cursor:pointer; line-height:1.4}
+.btn-amber{background:var(--amber); color:var(--navy); border-color:var(--amber)}
+.btn-amber:hover{background:var(--amber-hover); border-color:var(--amber-hover); color:#fff}
+.btn-outline{background:var(--white); color:var(--navy); border-color:var(--navy)}
+.btn-outline:hover{background:var(--navy); color:var(--white)}
+
+/* ===== 1. Navbar ===== */
+.site-header{position:sticky; top:0; z-index:100; background:var(--white); border-bottom:1px solid var(--border)}
+.nav-wrap{max-width:var(--container); margin:0 auto; padding:0 var(--s16); height:var(--nav-h); display:flex; align-items:center; justify-content:space-between; gap:16px}
+.wordmark{text-decoration:none; color:var(--navy); font-family:var(--font-heading); font-weight:700; font-size:20px; line-height:1; display:flex; flex-direction:column}
+.wordmark small{font-family:var(--font-body); font-weight:500; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--grey); margin-top:4px}
+.nav-links{display:none; gap:28px; list-style:none; margin:0; padding:0}
+.nav-links a{text-decoration:none; color:var(--navy); font-weight:500; font-size:16px; padding:8px 0; border-bottom:2px solid transparent}
+.nav-links a:hover{border-bottom-color:var(--amber)}
+.nav-cta{display:none}
+.hamburger{background:none; border:1px solid var(--border); border-radius:var(--radius-sm); width:44px; height:44px; cursor:pointer; color:var(--navy); font-size:22px; line-height:1}
+@media(min-width:900px){ .nav-links{display:flex} .nav-cta{display:inline-flex} .hamburger{display:none} }
+.mobile-menu{display:none; border-top:1px solid var(--border); background:var(--white); padding:8px 16px 16px}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block; padding:12px 4px; text-decoration:none; color:var(--navy); font-weight:500; border-bottom:1px solid var(--border)}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu .btn{width:100%; margin-top:12px}
+
+/* ===== 2. Hero ===== */
+.hero-grid{display:grid; gap:32px; align-items:start}
+@media(min-width:900px){ .hero-grid{grid-template-columns:1.05fr .95fr; gap:64px; align-items:center} }
+.hero-meta{margin:0 0 16px; font-size:14px; font-weight:600; color:var(--navy)}
+.hero-meta span{display:inline-block; border:1px solid var(--border); border-radius:20px; padding:6px 12px; background:var(--off-white)}
+.hero h1{margin-bottom:16px}
+.hero-actions{display:flex; flex-direction:column; gap:12px; margin:24px 0 24px}
+@media(min-width:480px){.hero-actions{flex-direction:row}}
+.hero-note{font-size:14px; border-left:3px solid var(--amber); padding-left:12px; max-width:46ch}
+.hero-figure{margin:0; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--off-white)}
+.hero-figure img{width:100%; height:100%; aspect-ratio:4/3; object-fit:cover; filter:saturate(.92) contrast(1.02)}
+.hero-figure figcaption{font-size:13px; padding:8px 12px; background:var(--white); border-top:1px solid var(--border); color:var(--grey)}
+
+/* ===== 3. Stats strip ===== */
+.stats{border-top:1px solid var(--border); border-bottom:1px solid var(--border)}
+.stats-grid{display:grid; grid-template-columns:1fr 1fr; margin:0; padding:0; list-style:none}
+.stats-grid li{padding:24px 16px 24px 0}
+.stats-grid li:nth-child(odd){border-right:1px solid var(--border); padding-left:0; padding-right:16px}
+.stats-grid li:nth-child(even){padding-left:24px}
+.stats-grid li:nth-child(1), .stats-grid li:nth-child(2){border-bottom:1px solid var(--border)}
+.stat-num{font-family:var(--font-heading); font-size:var(--h2); color:var(--navy); line-height:1.1; margin-bottom:8px; font-weight:600}
+.stat-label{font-size:15px; margin:0}
+@media(min-width:900px){
+  .stats-grid{grid-template-columns:repeat(4,1fr)}
+  .stats-grid li{padding:32px 32px 32px 32px}
+  .stats-grid li:nth-child(1), .stats-grid li:nth-child(2){border-bottom:none}
+  .stats-grid li+li{border-left:1px solid var(--border)}
+  .stats-grid li:nth-child(odd){border-right:none}
+  .stats-grid li:first-child{padding-left:0}
+}
+
+/* ===== 4. Courses editorial list ===== */
+.course-list{border-top:1px solid var(--border); margin-top:32px}
+.course-row{display:grid; gap:8px; padding:24px 0; border-bottom:1px solid var(--border)}
+.course-row h3{margin:0; color:var(--navy)}
+.course-desc{margin:0; font-size:15px; max-width:60ch}
+.course-meta{display:flex; flex-wrap:wrap; gap:8px 24px; font-size:14px; color:var(--navy); margin-top:8px}
+.course-meta strong{font-weight:600}
+.enquire-link{font-weight:600; color:var(--navy); text-decoration:underline; text-decoration-color:var(--amber); text-decoration-thickness:2px; text-underline-offset:4px; white-space:nowrap; justify-self:start; padding:8px 0}
+.enquire-link:hover{color:var(--amber-hover)}
+@media(min-width:900px){
+  .course-row{grid-template-columns:1.2fr 1.4fr auto; gap:32px; align-items:start}
+  .enquire-link{justify-self:end}
+}
+
+/* ===== 5. Batch timings table ===== */
+.table-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius); background:var(--white)}
+table{width:100%; border-collapse:collapse; font-size:15px; min-width:560px}
+caption{text-align:left; padding:16px; font-weight:600; color:var(--navy)}
+th,td{text-align:left; padding:12px 16px; border-top:1px solid var(--border)}
+thead th{border-top:none; font-size:14px; text-transform:uppercase; letter-spacing:.05em; color:var(--navy); font-weight:600; background:var(--white)}
+.seats{font-weight:600; color:var(--navy)}
+.seats.low{border-left:3px solid var(--amber); padding-left:12px}
+@media(max-width:700px){
+  table{min-width:0}
+  thead{display:none}
+  table, tbody, tr, td{display:block; width:100%}
+  tr{border-top:1px solid var(--border); padding:12px 16px}
+  tr:first-child{border-top:none}
+  td{border:none; padding:4px 0}
+  td::before{content:attr(data-label); display:block; font-size:13px; text-transform:uppercase; letter-spacing:.05em; font-weight:600; color:var(--navy); margin-bottom:2px}
+}
+.batch-note{font-size:14px; margin-top:16px}
+
+/* ===== 6. Why ===== */
+.why-grid{display:grid; gap:32px}
+@media(min-width:900px){.why-grid{grid-template-columns:.9fr 1.1fr; gap:64px}}
+.why-side p{max-width:42ch}
+.why-list{list-style:none; margin:0; padding:0; border-top:1px solid var(--border)}
+.why-list li{display:grid; grid-template-columns:48px 1fr; gap:16px; padding:24px 0; border-bottom:1px solid var(--border)}
+.why-num{font-family:var(--font-heading); font-size:var(--h3); color:var(--amber); font-weight:700}
+.why-list h3{margin:0 0 8px}
+.why-list p{margin:0; font-size:15px}
+
+/* ===== 7. Faculty ===== */
+.faculty-grid{display:grid; gap:24px; grid-template-columns:1fr; margin-top:32px}
+@media(min-width:600px){.faculty-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.faculty-grid{grid-template-columns:repeat(4,1fr)}}
+.teacher{border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--white)}
+.teacher img{width:100%; aspect-ratio:4/5; object-fit:cover; filter:saturate(.92) contrast(1.02)}
+.teacher-body{padding:16px}
+.teacher-body h3{margin:0 0 4px}
+.teacher-sub{font-weight:600; color:var(--navy); font-size:14px; margin:0 0 8px}
+.teacher-meta{font-size:14px; margin:0; line-height:1.5}
+
+/* ===== 8. Results ===== */
+.results-layout{display:grid; gap:32px}
+@media(min-width:900px){.results-layout{grid-template-columns:1.1fr .9fr; gap:64px}}
+.results-table{list-style:none; margin:24px 0 0; padding:0; border:1px solid var(--border); border-radius:var(--radius); background:var(--white)}
+.results-table li{padding:16px; border-bottom:1px solid var(--border); display:grid; gap:4px}
+.results-table li:last-child{border-bottom:none}
+.results-table strong{color:var(--navy)}
+.sample-note{font-size:13px; background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 16px; margin-top:16px}
+.results-side{border-left:1px solid var(--border); padding-left:24px}
+@media(min-width:900px){.results-side{padding-left:32px}}
+.results-side dl{margin:0; display:grid; gap:16px}
+.results-side dt{font-weight:600; color:var(--navy)}
+.results-side dd{margin:4px 0 0}
+
+/* ===== 9. Testimonials ===== */
+.quotes{display:grid; gap:24px; margin-top:32px}
+@media(min-width:900px){.quotes{grid-template-columns:1.2fr 1fr 1fr; gap:32px}}
+.quote{border:1px solid var(--border); border-radius:var(--radius); background:var(--white); padding:24px; display:flex; flex-direction:column}
+.quote:first-child{border-left:4px solid var(--amber)}
+.quote blockquote{margin:0 0 16px; font-size:16px; color:var(--navy); line-height:1.6}
+.quote cite{font-style:normal; font-size:14px; margin-top:auto}
+.quote cite strong{display:block; color:var(--navy)}
+
+/* ===== 10. Enquiry ===== */
+.enquiry-grid{display:grid; gap:32px}
+@media(min-width:900px){.enquiry-grid{grid-template-columns:1fr 1fr; gap:64px}}
+.form-box{border:1px solid var(--border); border-radius:var(--radius); background:var(--white); padding:24px}
+@media(min-width:900px){.form-box{padding:32px}}
+.form-line{font-weight:600; color:var(--navy); margin-bottom:16px}
+.field{margin-bottom:16px}
+label{display:block; font-weight:600; font-size:14px; color:var(--navy); margin-bottom:8px}
+input,select{width:100%; min-height:48px; padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); font:inherit; color:var(--navy); background:var(--white)}
+input:focus,select:focus{border-color:var(--navy)}
+.error{font-size:13px; color:#8B1A1A; margin:6px 0 0; display:none}
+.error.show{display:block}
+.field.invalid input,.field.invalid select{border-color:#8B1A1A}
+.form-success{border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 16px; font-size:14px; color:var(--navy); background:var(--off-white); display:none; margin-top:16px}
+.form-success.show{display:block}
+.contact-list{list-style:none; margin:24px 0; padding:0; display:grid; gap:16px}
+.contact-list li{border-bottom:1px solid var(--border); padding-bottom:16px}
+.contact-list strong{color:var(--navy); display:block; font-size:14px; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px}
+.contact-list a{color:var(--navy); font-weight:600}
+
+/* ===== 11. FAQ ===== */
+.faq{max-width:800px}
+.faq-item{border:1px solid var(--border); border-radius:var(--radius); background:var(--white); margin-bottom:12px; overflow:hidden}
+.faq-item h3{margin:0}
+.faq-q{width:100%; background:none; border:none; text-align:left; padding:16px; font:inherit; font-family:var(--font-body); font-weight:600; font-size:16px; color:var(--navy); display:flex; justify-content:space-between; gap:16px; cursor:pointer}
+.faq-q span:last-child{font-weight:400; flex-shrink:0}
+.faq-a{padding:0 16px 16px; font-size:15px}
+.faq-a[hidden]{display:none}
+
+/* ===== 12. Footer ===== */
+footer{background:var(--navy); color:#D6DCE3}
+footer a{color:#fff}
+.footer-grid{display:grid; gap:32px; padding-top:64px; padding-bottom:32px}
+@media(min-width:900px){.footer-grid{grid-template-columns:1.2fr 1fr 1fr; gap:64px}}
+footer h2{color:#fff; font-size:var(--h3); font-family:var(--font-body); font-weight:600; margin-bottom:16px}
+footer p, footer li{font-size:15px}
+footer ul{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+.map-ph{border:1px solid rgba(255,255,255,.25); border-radius:var(--radius); padding:24px; font-size:14px; background:transparent}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.2); padding:16px 0 96px; font-size:13px}
+@media(min-width:900px){.footer-bottom{padding-bottom:24px}}
+.footer-bottom .container{display:flex; flex-direction:column; gap:8px}
+@media(min-width:700px){.footer-bottom .container{flex-direction:row; justify-content:space-between}}
+
+/* floating + mobile bar */
+.wa-float{position:fixed; right:16px; bottom:76px; z-index:90; background:var(--navy); color:#fff; text-decoration:none; border:1px solid var(--navy); border-radius:30px; padding:12px 18px; font-weight:600; font-size:14px; display:inline-flex; align-items:center; gap:8px}
+.wa-float:hover{background:var(--amber); border-color:var(--amber); color:var(--navy)}
+@media(min-width:900px){.wa-float{bottom:24px}}
+.mobile-call{position:fixed; left:0; right:0; bottom:0; z-index:95; display:flex; background:var(--white); border-top:1px solid var(--border)}
+.mobile-call a{flex:1; text-align:center; padding:14px 8px; font-weight:600; text-decoration:none; font-size:15px}
+.mobile-call a:first-child{color:var(--navy)}
+.mobile-call a:last-child{background:var(--amber); color:var(--navy)}
+@media(min-width:900px){.mobile-call{display:none}}
+
+/* reveal - only fade */
+.reveal{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease}
+.reveal.visible{opacity:1; transform:none}
+@media(prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- 1. Navbar -->
+<header class="site-header">
+<div class="nav-wrap">
+<a class="wordmark" href="#top" aria-label="Learnvora Academy home">Learnvora Academy<small>Bengaluru · Class 8–12</small></a>
+<nav aria-label="Primary">
+<ul class="nav-links">
+<li><a href="#courses">Courses</a></li>
+<li><a href="#faculty">Faculty</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+<a class="btn btn-amber nav-cta" href="#contact">Book a Free Demo</a>
+<button class="hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">☰</button>
+</div>
+<div class="mobile-menu" id="mobileMenu">
+<a href="#courses">Courses</a>
+<a href="#faculty">Faculty</a>
+<a href="#results">Results</a>
+<a href="#contact">Contact</a>
+<a class="btn btn-amber" href="#contact">Book a Free Demo</a>
+</div>
+</header>
+
+<main id="main">
+<!-- 2. Hero -->
+<section class="section bg-white hero" id="top" aria-labelledby="hero-h">
+<div class="container hero-grid">
+<div class="reveal">
+<p class="hero-meta"><span>Admissions open · 2026–27 · HSR Layout, Bengaluru</span></p>
+<h1 id="hero-h">Small batches. Weekly tests. Real results.</h1>
+<p class="lead">JEE, NEET and Foundation coaching for Class 8–12, with 15 students per batch and a doubt session after every class.</p>
+<div class="hero-actions">
+<a class="btn btn-amber" href="#contact">Book a Free Demo</a>
+<a class="btn btn-outline" href="#courses">View Courses</a>
+</div>
+<p class="hero-note">Two demo classes before you pay. Test copy shared with parents. No admission fee for Foundation batches.</p>
+</div>
+<div class="reveal">
+<figure class="hero-figure">
+<img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=900&q=80" alt="Indian school students in a Bengaluru classroom raising hands during a lesson" width="900" height="675" loading="eager">
+<figcaption>Evening Physics batch, HSR centre — 15 students, March 2026.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<!-- 3. Stats strip -->
+<section class="bg-off stats" aria-label="Institute at a glance">
+<div class="container">
+<ul class="stats-grid reveal">
+<li><div class="stat-num">12 years</div><p class="stat-label">Running batches in Bengaluru since 2014</p></li>
+<li><div class="stat-num">15 students</div><p class="stat-label">Maximum per batch, no overflow</p></li>
+<li><div class="stat-num">Weekly tests</div><p class="stat-label">90-minute test every Sunday, checked by hand</p></li>
+<li><div class="stat-num">Monthly updates</div><p class="stat-label">Parent meeting + written progress report</p></li>
+</ul>
+</div>
+</section>
+
+<!-- 4. Courses -->
+<section class="section bg-white" id="courses" aria-labelledby="courses-h">
+<div class="container">
+<div class="reveal">
+<p class="kicker">Courses</p>
+<h2 id="courses-h">Four tracks. Fixed syllabus. Fixed schedule.</h2>
+<p class="lead">All batches run at the HSR Layout centre. Study material and test series are included in the fee. No separate charges.</p>
+</div>
+<div class="course-list reveal">
+<article class="course-row">
+<div><h3>Foundation Science + Maths</h3><p class="course-desc">NCERT plus Olympiad and NTSE base. Mental maths drill every Friday.</p></div>
+<div class="course-meta"><span><strong>Class 8–10</strong></span><span>10 months · 4 days/week</span><span>15 per batch</span></div>
+<a class="enquire-link" href="#contact" data-course="Foundation Science + Maths (Class 8-10)">Enquire →</a>
+</article>
+<article class="course-row">
+<div><h3>JEE Main + Advanced</h3><p class="course-desc">Physics, Chemistry, Maths with daily practice sheets. 32 full mock tests in Class 12.</p></div>
+<div class="course-meta"><span><strong>Class 11–12</strong></span><span>22 months · 5 days/week</span><span>15 per batch</span></div>
+<a class="enquire-link" href="#contact" data-course="JEE Main + Advanced (Class 11-12)">Enquire →</a>
+</article>
+<article class="course-row">
+<div><h3>NEET-UG</h3><p class="course-desc">Biology with diagrams practice, Physics numericals, Chemistry NCERT line-by-line. 28 full mock tests.</p></div>
+<div class="course-meta"><span><strong>Class 11–12</strong></span><span>22 months · 5 days/week</span><span>15 per batch</span></div>
+<a class="enquire-link" href="#contact" data-course="NEET-UG (Class 11-12)">Enquire →</a>
+</article>
+<article class="course-row">
+<div><h3>Board Exam Prep</h3><p class="course-desc">Karnataka State + CBSE writing practice. 10 previous papers solved in class, not as homework.</p></div>
+<div class="course-meta"><span><strong>Class 10 &amp; 12</strong></span><span>8 months · 3 days/week</span><span>15 per batch</span></div>
+<a class="enquire-link" href="#contact" data-course="Board Exam Prep (Class 10 and 12)">Enquire →</a>
+</article>
+</div>
+</div>
+</section>
+
+<!-- 5. Batch timings -->
+<section class="section bg-off" id="batches" aria-labelledby="batch-h">
+<div class="container">
+<div class="reveal">
+<p class="kicker">Batch timings</p>
+<h2 id="batch-h">Current seats, updated every Monday</h2>
+<p>Morning batches are for Class 8–10. Evening batches are for Class 11–12. Timings do not change mid-term.</p>
+</div>
+<div class="table-wrap reveal">
+<table>
+<caption>Weekday batches — HSR Layout centre</caption>
+<thead><tr><th scope="col">Course</th><th scope="col">Days</th><th scope="col">Time</th><th scope="col">Seats Left</th></tr></thead>
+<tbody>
+<tr><td data-label="Course">Foundation Class 9</td><td data-label="Days">Mon, Wed, Fri, Sat</td><td data-label="Time">6:00 – 7:30 AM</td><td data-label="Seats Left"><span class="seats">6 seats</span></td></tr>
+<tr><td data-label="Course">Foundation Class 10</td><td data-label="Days">Tue, Thu, Sat, Sun</td><td data-label="Time">6:00 – 7:30 AM</td><td data-label="Seats Left"><span class="seats low">2 seats</span></td></tr>
+<tr><td data-label="Course">JEE Class 11</td><td data-label="Days">Mon – Fri</td><td data-label="Time">5:00 – 7:30 PM</td><td data-label="Seats Left"><span class="seats">5 seats</span></td></tr>
+<tr><td data-label="Course">NEET Class 12</td><td data-label="Days">Mon – Fri</td><td data-label="Time">5:00 – 7:30 PM</td><td data-label="Seats Left"><span class="seats low">3 seats</span></td></tr>
+<tr><td data-label="Course">Board Class 12</td><td data-label="Days">Tue, Thu, Sun</td><td data-label="Time">4:00 – 6:00 PM</td><td data-label="Seats Left"><span class="seats">7 seats</span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="batch-note reveal">Last updated: Monday, 12 Oct 2026. If a batch shows 2–3 seats, we do not add extra chairs. Next batch starts first week of November.</p>
+</div>
+</section>
+
+<!-- 6. Why Learnvora -->
+<section class="section bg-white" aria-labelledby="why-h">
+<div class="container why-grid">
+<div class="why-side reveal">
+<p class="kicker">Why Learnvora</p>
+<h2 id="why-h">A fixed routine parents can check</h2>
+<p>We do not change teachers, timings, or test days during the year. What is printed in August is followed till March.</p>
+<p style="font-size:14px">Visit any batch unannounced. Sit at the back for 30 minutes. No appointment needed on weekdays.</p>
+</div>
+<ol class="why-list reveal">
+<li><span class="why-num">01</span><div><h3>Small batches, by rule</h3><p>15 students per batch. The 16th admission goes to the next batch, even if you are ready to pay.</p></div></li>
+<li><span class="why-num">02</span><div><h3>Weekly tests with written reports</h3><p>90-minute test every Sunday. Marks, rank in batch, and three lines on what to fix — sent to parents by Tuesday.</p></div></li>
+<li><span class="why-num">03</span><div><h3>Doubt session after every class</h3><p>30 minutes kept free after each class. No student leaves with a pending doubt marked in the register.</p></div></li>
+<li><span class="why-num">04</span><div><h3>Parent updates every month</h3><p>15-minute meeting with attendance, test average, and homework completion. Minutes shared on paper.</p></div></li>
+</ol>
+</div>
+</section>
+
+<!-- 7. Faculty -->
+<section class="section bg-off" id="faculty" aria-labelledby="faculty-h">
+<div class="container">
+<div class="reveal">
+<p class="kicker">Faculty</p>
+<h2 id="faculty-h">Four full-time teachers. No visiting staff.</h2>
+<p class="lead">All teachers take doubt sessions and check test papers themselves. They do not outsource correction.</p>
+</div>
+<div class="faculty-grid reveal">
+<article class="teacher"><img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=600&q=80" alt="Portrait of Mr K Prakash, Indian Physics teacher" width="600" height="750" loading="lazy"><div class="teacher-body"><h3>Mr. K. Prakash</h3><p class="teacher-sub">Physics · Class 11–12</p><p class="teacher-meta">B.E., UVCE Bengaluru · 11 years teaching JEE and Boards</p></div></article>
+<article class="teacher"><img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=600&q=80" alt="Portrait of Mrs S Rao, Indian Biology teacher" width="600" height="750" loading="lazy"><div class="teacher-body"><h3>Mrs. S. Rao</h3><p class="teacher-sub">Biology · NEET</p><p class="teacher-meta">M.Sc. Zoology, Bangalore University · 9 years, NEET specialist</p></div></article>
+<article class="teacher"><img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=600&q=80" alt="Portrait of Mr A Khan, Indian Chemistry teacher" width="600" height="750" loading="lazy"><div class="teacher-body"><h3>Mr. A. Khan</h3><p class="teacher-sub">Chemistry · JEE + NEET</p><p class="teacher-meta">M.Sc. Chemistry, IIT Delhi · 8 years, Organic Chemistry focus</p></div></article>
+<article class="teacher"><img src="https://images.unsplash.com/photo-1541101767792-f9b2b1c4f127?auto=format&fit=crop&w=600&q=80" alt="Portrait of Ms R Iyer, Indian Mathematics teacher" width="600" height="750" loading="lazy"><div class="teacher-body"><h3>Ms. R. Iyer</h3><p class="teacher-sub">Maths · Foundation + JEE</p><p class="teacher-meta">B.Sc., M.Ed. · 10 years, Class 8–12 Maths and Boards</p></div></article>
+</div>
+</div>
+</section>
+
+<!-- 8. Results -->
+<section class="section bg-white" id="results" aria-labelledby="results-h">
+<div class="container results-layout">
+<div class="reveal">
+<p class="kicker">Results</p>
+<h2 id="results-h">2025 batches, with roll numbers on file</h2>
+<p>Sample figures from our internal records. Full mark sheets are available at the centre for parents to verify.</p>
+<ul class="results-table">
+<li><strong>NEET 2025: 38 of 52 students scored 550+</strong><span>Batch average 512. 6 students above 650. 2 students re-attempting.</span></li>
+<li><strong>JEE Main 2025: 31 of 44 crossed 93 percentile</strong><span>11 qualified for Advanced. Highest: 98.6 percentile (Gen, Day batch).</span></li>
+<li><strong>Class 10 Boards 2025: 29 of 34 scored 90%+</strong><span>Maths average 94. Science average 91. All 34 passed First Class.</span></li>
+<li><strong>Class 12 Boards 2025: 22 of 28 scored 85%+</strong><span>Physics average 88. Chemistry average 86.</span></li>
+</ul>
+<p class="sample-note">Note: These are sample figures for design demonstration. We do not claim national ranks, state ranks, or 100% selection.</p>
+</div>
+<div class="results-side reveal">
+<h3 style="margin-bottom:16px">How we count</h3>
+<dl>
+<dt>Only our regular students</dt><dd>Counted only if attendance was above 75% for the full year. Crash-course students are listed separately.</dd>
+<dt>One student, one count</dt><dd>Repeaters are marked as repeaters. We do not merge two years to inflate totals.</dd>
+<dt>Failures recorded too</dt><dd>14 students scored below our expected band in 2025. Their reports are also filed and shown to new parents on request.</dd>
+</dl>
+</div>
+</div>
+</section>
+
+<!-- 9. Testimonials -->
+<section class="section bg-off" aria-labelledby="testi-h">
+<div class="container">
+<div class="reveal">
+<p class="kicker">Parents and students</p>
+<h2 id="testi-h">What changed after two months</h2>
+</div>
+<div class="quotes reveal">
+<article class="quote"><blockquote>“The weekly test reports showed us exactly where our son was weak. In Rotational Mechanics he went from 11 to 29 out of 40 in six weeks. The teacher wrote what to revise, not just marks.”</blockquote><cite><strong>Mr. Ramesh Kulkarni</strong>Parent · JEE Class 11</cite></article>
+<article class="quote"><blockquote>“Doubt session is not for namesake. Ma’am stays back till 8 pm on Tuesdays. My daughter clears Biology diagrams the same day itself.”</blockquote><cite><strong>Mrs. Farah Sheikh</strong>Parent · NEET Class 12</cite></article>
+<article class="quote"><blockquote>“I joined for Boards, but the Sunday tests helped me finish papers on time. In pre-boards I finished Maths 20 minutes early for the first time.”</blockquote><cite><strong>Ananya S.</strong>Student · Class 10</cite></article>
+</div>
+</div>
+</section>
+
+<!-- 10. Enquiry form -->
+<section class="section bg-white" id="contact" aria-labelledby="contact-h">
+<div class="container enquiry-grid">
+<div class="reveal">
+<p class="kicker">Enquiry</p>
+<h2 id="contact-h">Book a free demo class</h2>
+<p class="form-line">We’ll call you within 24 hours.</p>
+<p>Two demo classes, no payment. Bring last term’s report card. We will suggest the right batch after a 20-minute level check.</p>
+<ul class="contact-list">
+<li><strong>Call us</strong><a href="tel:+9198XXXXXXXX">98XXXXXXXX</a> (Mon–Sat, 9 AM – 7 PM)</li>
+<li><strong>Visit</strong><span>2nd Floor, 27th Main Road, HSR Layout Sector 1, Bengaluru — “Main Road, Your City”</span></li>
+<li><strong>WhatsApp</strong><a href="https://wa.me/91XXXXXXXXXX?text=Hello%20Learnvora%20Academy%2C%20I%20want%20details%20about%20a%20free%20demo%20class.">Chat on WhatsApp</a></li>
+</ul>
+</div>
+<div class="reveal">
+<form class="form-box" id="enquiryForm" novalidate>
+<div class="field" id="f-name">
+<label for="studentName">Student name</label>
+<input id="studentName" name="studentName" type="text" autocomplete="name" placeholder="e.g. Aditya Sharma">
+<p class="error" id="e-name">Please enter the student’s full name (min 3 letters).</p>
+</div>
+<div class="field" id="f-phone">
+<label for="phone">Phone (10 digits)</label>
+<input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" placeholder="98XXXXXXXX" autocomplete="tel">
+<p class="error" id="e-phone">Enter a valid 10-digit mobile number starting with 6–9.</p>
+</div>
+<div class="field" id="f-class">
+<label for="studentClass">Class</label>
+<select id="studentClass" name="studentClass">
+<option value="">Select class</option>
+<option>Class 8</option><option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option>
+</select>
+<p class="error" id="e-class">Please select the class.</p>
+</div>
+<div class="field" id="f-course">
+<label for="course">Course</label>
+<select id="course" name="course">
+<option value="">Select course</option>
+<option>Foundation Science + Maths (Class 8-10)</option>
+<option>JEE Main + Advanced (Class 11-12)</option>
+<option>NEET-UG (Class 11-12)</option>
+<option>Board Exam Prep (Class 10 and 12)</option>
+</select>
+<p class="error" id="e-course">Please select a course.</p>
+</div>
+<button class="btn btn-amber" type="submit" style="width:100%">Request Callback on WhatsApp</button>
+<p style="font-size:13px; margin:12px 0 0">By submitting, you agree to be contacted about batches and fees. We do not share numbers.</p>
+<div class="form-success" id="formSuccess" role="status"></div>
+</form>
+</div>
+</div>
+</section>
+
+<!-- 11. FAQ -->
+<section class="section bg-off" aria-labelledby="faq-h">
+<div class="container">
+<div class="reveal">
+<p class="kicker">FAQ</p>
+<h2 id="faq-h">Fees, demo, timings — in plain words</h2>
+</div>
+<div class="faq reveal">
+<div class="faq-item"><h3><button class="faq-q" aria-expanded="false" aria-controls="fa1" id="fq1">What are the fees? <span>+</span></button></h3><div class="faq-a" id="fa1" role="region" aria-labelledby="fq1" hidden><p>Foundation (Class 8–10): Rs. 42,000 per year. JEE / NEET: Rs. 68,000 per year. Board Prep: Rs. 28,000 for 8 months. Material, tests and doubt sessions are included. Two instalments allowed. No admission fee for Foundation.</p></div></div>
+<div class="faq-item"><h3><button class="faq-q" aria-expanded="false" aria-controls="fa2" id="fq2">How does the free demo work? <span>+</span></button></h3><div class="faq-a" id="fa2" role="region" aria-labelledby="fq2" hidden><p>Two regular classes with the actual batch, not a special demo batch. After the second class, the teacher gives a one-page note on level and batch fit. No payment or documents needed before that.</p></div></div>
+<div class="faq-item"><h3><button class="faq-q" aria-expanded="false" aria-controls="fa3" id="fq3">Can we change batch timings later? <span>+</span></button></h3><div class="faq-a" id="fa3" role="region" aria-labelledby="fq3" hidden><p>Yes, once per term if seats are free in the other batch. Morning to evening shift needs a written request and a 30-minute catch-up test, because portions move at different speeds.</p></div></div>
+<div class="faq-item"><h3><button class="faq-q" aria-expanded="false" aria-controls="fa4" id="fq4">How are doubts handled? <span>+</span></button></h3><div class="faq-a" id="fa4" role="region" aria-labelledby="fq4" hidden><p>30 minutes after every class with the same teacher. Doubts are entered in a register. If more than 3 doubts are pending for a student, the teacher calls the parent that week itself.</p></div></div>
+<div class="faq-item"><h3><button class="faq-q" aria-expanded="false" aria-controls="fa5" id="fq5">When are tests held? <span>+</span></button></h3><div class="faq-a" id="fa5" role="region" aria-labelledby="fq5" hidden><p>Every Sunday, 9:00–10:30 AM for all batches. Syllabus is given the previous Monday. Checked papers are returned on Tuesday with marks sent to parents by SMS and paper copy.</p></div></div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- 12. Footer -->
+<footer>
+<div class="container footer-grid">
+<div>
+<h2>Learnvora Academy</h2>
+<p>2nd Floor, 27th Main Road,<br>HSR Layout Sector 1, Bengaluru<br>“Main Road, Your City” – 560102</p>
+<p>Timings: Mon–Sat, 9:00 AM – 7:00 PM<br>Sunday: 9:00 AM – 12:00 PM (tests only)</p>
+<p><a href="tel:+9198XXXXXXXX">Call: 98XXXXXXXX</a></p>
+</div>
+<div>
+<h2>Courses</h2>
+<ul>
+<li><a href="#courses">Foundation (Class 8–10)</a></li>
+<li><a href="#courses">JEE Main + Advanced</a></li>
+<li><a href="#courses">NEET-UG</a></li>
+<li><a href="#courses">Board Exam Prep</a></li>
+</ul>
+</div>
+<div>
+<h2>Reach us</h2>
+<div class="map-ph">Map placeholder — HSR Layout, Bengaluru.<br><a href="https://www.google.com/maps/search/?api=1&query=HSR+Layout+Bengaluru" target="_blank" rel="noopener">Open in Google Maps →</a></div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="container">
+<span>© 2026 Learnvora Academy. All rights reserved.</span>
+<span>Concept design for portfolio purposes.</span>
+</div>
+</div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/91XXXXXXXXXX?text=Hello%20Learnvora%20Academy%2C%20I%20want%20details%20about%20batches." aria-label="Chat with Learnvora Academy on WhatsApp">WhatsApp</a>
+<div class="mobile-call"><a href="tel:+9198XXXXXXXX">Call Now</a><a href="#contact">Book Free Demo</a></div>
+
+<script>
+// Mobile menu
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+menuBtn.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  menuBtn.textContent = open ? '✕' : '☰';
+});
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mobileMenu.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+  menuBtn.textContent = '☰';
+}));
+
+// Fade-in on scroll (subtle only)
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    // close others
+    document.querySelectorAll('.faq-q').forEach(b => {
+      b.setAttribute('aria-expanded','false');
+      b.querySelector('span:last-child').textContent = '+';
+      document.getElementById(b.getAttribute('aria-controls')).hidden = true;
+    });
+    if (!expanded) {
+      btn.setAttribute('aria-expanded','true');
+      btn.querySelector('span:last-child').textContent = '–';
+      panel.hidden = false;
+    }
+  });
+});
+
+// Enquire links preselect course
+document.querySelectorAll('.enquire-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const c = link.getAttribute('data-course');
+    const sel = document.getElementById('course');
+    if (c) sel.value = c;
+  });
+});
+
+// Enquiry form validation + WhatsApp
+const form = document.getElementById('enquiryForm');
+function setErr(fieldId, errId, bad) {
+  document.getElementById(fieldId).classList.toggle('invalid', bad);
+  document.getElementById(errId).classList.toggle('show', bad);
+  return !bad;
+}
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('studentName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const sClass = document.getElementById('studentClass').value;
+  const course = document.getElementById('course').value;
+  let ok = true;
+  ok = setErr('f-name','e-name', !(name.length >= 3 && /^[A-Za-z][A-Za-z .'-]*$/.test(name))) && ok;
+  ok = setErr('f-phone','e-phone', !/^[6-9]\d{9}$/.test(phone)) && ok;
+  ok = setErr('f-class','e-class', !sClass) && ok;
+  ok = setErr('f-course','e-course', !course) && ok;
+  if (!ok) {
+    const firstInvalid = document.querySelector('.field.invalid input, .field.invalid select');
+    if (firstInvalid) firstInvalid.focus();
+    return;
+  }
+  const msg = 'Hello Learnvora Academy, I am ' + name + '. Class: ' + sClass + ', Course: ' + course + ', Phone: ' + phone + '. Please call me for a free demo.';
+  const url = 'https://wa.me/91XXXXXXXXXX?text=' + encodeURIComponent(msg);
+  const box = document.getElementById('formSuccess');
+  box.textContent = 'Thank you, ' + name + '. Opening WhatsApp to confirm your demo request…';
+  box.classList.add('show');
+  window.open(url, '_blank', 'noopener');
+});
+['studentName','phone','studentClass','course'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById('formSuccess').classList.remove('show');
+  });
+});
+</script>
+</body>
+</html>
